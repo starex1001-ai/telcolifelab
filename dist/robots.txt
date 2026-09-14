@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://telcolifelab.webnote-lab.workers.dev/sitemap.xml

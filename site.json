@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "name": "통신생활랩",
+  "brand": "TELCO LIFE LAB",
+  "worker": "telcolifelab",
+  "url": "https://telcolifelab.webnote-lab.workers.dev",
+  "email": "jordan20002@naver.com",
+  "description": "통신 요금, 구독 관리, 집 인터넷을 이해하는 생활 가이드. 청구서와 이용 조건을 직접 확인하는 방법을 정리합니다.",
+  "categories": [
+    {
+      "slug": "mobile",
+      "name": "모바일·요금제",
+      "description": "사용량과 청구서를 기준으로 통신비 살펴보기"
+    },
+    {
+      "slug": "subscriptions",
+      "name": "구독 관리",
+      "description": "이용 중인 서비스를 정리하고 갱신일 확인하기"
+    },
+    {
+      "slug": "internet",
+      "name": "인터넷·와이파이",
+      "description": "집 안의 연결 상태와 설치 조건 이해하기"
+    }
+  ]
+}
