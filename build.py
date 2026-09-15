@@ -2,6 +2,7 @@
 import argparse, json, re, shutil
 from pathlib import Path
 from datetime import date
+from content_support import render_body, validate_posts, today
 from html import escape
 from xml.etree import ElementTree as ET
 
@@ -9,6 +10,7 @@ def build(root):
     root=Path(root).resolve()
     config=json.loads((root/'site.json').read_text(encoding='utf-8'))
     posts=json.loads((root/'content/posts.json').read_text(encoding='utf-8'))
+    validate_posts(posts, config)
     base=config['url'].rstrip('/')
     if not re.fullmatch(r'https://[a-z0-9.-]+',base): raise ValueError('Invalid site URL')
     categories={c['slug']:c for c in config['categories']}
@@ -21,9 +23,10 @@ def build(root):
         if p['status'] not in ['draft','published']: raise ValueError('Invalid status')
         for field in ['date','updated']: date.fromisoformat(p[field])
         if p['updated']<p['date']: raise ValueError('Update date precedes publication')
-    posts=sorted([p for p in posts if p['status']=='published' and p['date']<=date.today().isoformat()],key=lambda p:(p['date'],p['id']),reverse=True)
+    posts=sorted([p for p in posts if p['status']=='published' and p['date']<=today().isoformat()],key=lambda p:(p['date'],p['id']),reverse=True)
     out=root/'dist'
     # Only this generator-owned output directory is replaced; uploaded verification files belong in public/.
+    if out.is_symlink(): raise ValueError("dist must not be a symlink")
     if out.exists(): shutil.rmtree(out)
     out.mkdir()
     shutil.copytree(root/'public',out,dirs_exist_ok=True)
@@ -62,6 +65,8 @@ def build(root):
             sections+=f'<section id="section-{i}"><h2>{e(s["heading"])}</h2>'+''.join(f'<p>{e(t)}</p>' for t in s['paragraphs'])
             if s.get('example'): sections+=f'<div class="example"><div><strong>확인 메모</strong><button type="button" class="copy" aria-label="확인 메모 복사">복사</button></div><pre>{e(s["example"])}</pre><span class="copy-status" role="status"></span></div>'
             sections+='</section>'
+        if 'body_html' in p:
+            toc, sections = render_body(p)
         related=''.join(f'<a href="/posts/{q["slug"]}/">{e(q["title"])} ↗</a>' for q in posts if q['id']!=p['id'])
         body=f'''<div class="article-layout"><article class="prose"><div class="breadcrumbs"><a href="/">홈</a> / <a href="/category/{p['category']}/">{e(categories[p['category']]['name'])}</a></div><span class="kicker">{e(p['label'])}</span><h1>{e(p['title'])}</h1><p class="lead">{e(p['description'])}</p><div class="byline">{e(config['name'])} · <time datetime="{p['date']}">{p['date']}</time> · {p['minutes']}분 읽기</div><p>{e(p['intro'])}</p>{sections}<div class="article-note">이 글은 일반적인 확인 절차를 정리한 가이드입니다. 실제 요금, 계약, 취소 조건은 이용 중인 서비스의 공식 안내와 본인 계약을 확인하세요.</div><section class="related"><h2>이어 읽기</h2>{related}</section></article><aside class="toc"><strong>이 글의 순서</strong><ol>{toc}</ol><a class="backtop" href="#main">맨 위로 ↑</a></aside></div>'''
         page('/posts/'+p['slug']+'/',p['title'],p['description'],body,p)

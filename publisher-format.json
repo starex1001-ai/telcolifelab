@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "site": "telcolifelab",
+  "sha256": {
+    "build.py": "d9f902b13a479bc92b127dcbe7141936da5907e41b478a791d5ccbced1fe5de0",
+    "content_support.py": "14e0f83eca00820a086224fd625f2d65ee37351f69934af7638b6c103e1026db"
+  }
+}
