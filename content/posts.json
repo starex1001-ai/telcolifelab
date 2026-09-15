@@ -173,5 +173,27 @@
     "tags": [
       "발행 테스트"
     ]
+  },
+  {
+    "id": "sheet-telco-test",
+    "slug": "telco-test",
+    "category": "mobile",
+    "status": "published",
+    "title": "통신생활랩 자동발행 테스트",
+    "description": "통신생활랩 자동발행 테스트 글입니다. Google Sheets에서 입력한 글이 Python 자동화와 GitHub를 거쳐 Cloudflare에 정상적으로 발행되는지 확인하기 위한 테스트 콘텐츠입니다. 자동발행 테스트 이 글이 정상적으로 공개되면 통신생활랩의 자동발행 연결이 정상적으로 작동",
+    "date": "2026-09-16",
+    "updated": "2026-09-16",
+    "minutes": 1,
+    "label": "가이드",
+    "intro": "",
+    "sections": [],
+    "body_html": "<p><strong>통신생활랩 자동발행 테스트 글입니다.</strong></p><p>Google Sheets에서 입력한 글이 Python 자동화와 GitHub를 거쳐 Cloudflare에 정상적으로 발행되는지 확인하기 위한 테스트 콘텐츠입니다.</p><h2>자동발행 테스트</h2><p>이 글이 정상적으로 공개되면 통신생활랩의 자동발행 연결이 정상적으로 작동하는 것으로 확인할 수 있습니다.</p>",
+    "tags": [
+      "통신",
+      "요금제",
+      "모바일",
+      "인터넷",
+      "자동발행"
+    ]
   }
 ]
